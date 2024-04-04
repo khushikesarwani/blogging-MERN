@@ -14,7 +14,7 @@ try {
     const userexist=await userModel.findOne({email});
     if(userexist){
  
-        next(errorHandler(400,"User Already Exists,do login instead"))
+        next(errorHandler(400,"User Already Exists, do login instead"))
 
     //  return   res.status(400).send({
     //     success:false,
