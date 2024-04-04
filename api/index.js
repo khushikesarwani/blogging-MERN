@@ -2,7 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
-import userRoutes  from './routes/userRoute.js'
+import userRoutes  from './routes/userRoute.js';
+import authRoutes from './routes/auth.route.js';
+
 
 
 
@@ -22,7 +24,10 @@ connectDB();
 
 const app=express();
 
+
+app.use(express.json());
 app.use('/api/user',userRoutes);
+app.use('/api/auth',authRoutes);
 
 app.get('/',(req,res)=>{
     res.send('<h1>hey</h1>');
