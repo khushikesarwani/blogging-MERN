@@ -1,6 +1,7 @@
 4 april 2024
 ==============================================
 installed flowbite-react
+alt+shift+ down     =>copy and paste just below
 
 
 creating header comp
