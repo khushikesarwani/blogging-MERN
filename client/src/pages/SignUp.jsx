@@ -40,7 +40,7 @@ if(!data.email || !data.username || !data.password){
         body:JSON.stringify(data)
       });
      const d= await response.json();
-     console.log(d);
+    //  console.log(d);
 setLoading(false);
 if(d.success===false){
   return setErrormessage(d.message);
