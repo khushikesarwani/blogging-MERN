@@ -1,20 +1,28 @@
 import userModel from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
+import jwt from 'jsonwebtoken';
 
 
 export const signupController=async(req,res,next)=>{
     const {username,email,password}=req.body;
     if(!username || !email || !password || username===''|| email===''||password===''){
-       next(errorHandler(400,'All Fields are required'));
+     return  next(errorHandler(400,'All Fields are required'));
     }
 
 try {
+    const userexist1=await userModel.findOne({username});
+    if(userexist1){
+ 
+      return  next(errorHandler(400,"USERNAME Already Exists, try different username"))
+
+
+    }
 
     const userexist=await userModel.findOne({email});
     if(userexist){
  
-        next(errorHandler(400,"User Already Exists, do login instead"))
+      return  next(errorHandler(400,"Email Already Exists, do login instead"))
 
     //  return   res.status(400).send({
     //     success:false,
@@ -37,8 +45,55 @@ res.status(200).send({
 })
     
 } catch (error) {
+    console.log(error);
    next(error);
     
 }
    
+}
+
+//loginnnnnnn
+
+export const signinController=async(req,res,next)=>{
+
+    const {email,password}=req.body;
+    if(!email || !password || email==='' || password===''){
+        next(errorHandler(400,"Fiels cannot be empty"));
+    }
+    try {
+       
+        const user=await userModel.findOne({email});
+    
+        if(!user){
+         return  next(errorHandler(400,'No user Exist'));
+        }
+        
+        const validpass=bcryptjs.compareSync(password,user.password);
+
+        if(!validpass){
+          return  next(errorHandler(400,"Invalid user/Password mismatched"));
+        }
+
+const token= jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'3d'});
+
+
+
+return res.status(200).cookie('acces_token',token,{
+                httpOnly:true
+            }).send({
+                success:true,
+                message:'SignIn successfully !',
+                user:{
+                    email:user.email,
+                    username:user.username,
+                    _id:user._id
+                }
+
+            });
+        
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+
 }

@@ -74,4 +74,4 @@ const FooterComp = () => {
   )
 }
 
-export default FooterComp
+export default FooterComp;
