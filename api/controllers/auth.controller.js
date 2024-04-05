@@ -58,7 +58,7 @@ export const signinController=async(req,res,next)=>{
 
     const {email,password}=req.body;
     if(!email || !password || email==='' || password===''){
-        next(errorHandler(400,"Fiels cannot be empty"));
+        next(errorHandler(400,"Fields cannot be empty"));
     }
     try {
        

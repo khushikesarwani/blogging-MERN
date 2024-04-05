@@ -23,3 +23,5 @@ created footer{
 }
 
 //user loggin and cookie returning
+/============5 april===================
+installed react-redux and toolkit in frontent for state management

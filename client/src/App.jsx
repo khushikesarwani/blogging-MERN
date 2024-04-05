@@ -9,6 +9,8 @@ import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard.jsx';
 import Footer from './components/Footer.jsx';
 
+
+
 const App = () => {
   return (
     <BrowserRouter>
