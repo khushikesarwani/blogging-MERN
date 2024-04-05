@@ -25,3 +25,10 @@ created footer{
 //user loggin and cookie returning
 /============5 april===================
 installed react-redux and toolkit in frontent for state management
+installed redux-persist (for storing data permanently into localstorage)
+and also we are going to combine reducers using combineReducers;
+
+
+import storage from 'redux-persist/lib/storage';      {BHaisaaaaaaaaaaaaaaaBBBBBBBB}
+now even if we refresh the page it will be stored in local storage
+
