@@ -1,13 +1,19 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
 import React from 'react';
-import {FaMoon, FaSearch } from 'react-icons/fa';
+import {FaMoon, FaSearch, FaSun } from 'react-icons/fa';
 import {AiOutlineSearch} from 'react-icons/ai'
 import {Link, useLocation} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import { toggleTheme } from '../Redux/theme/themeSlice';
 
 const Header = () => {
+   
+  const dispatch=useDispatch();
+ //for getting theme to reflect sun or moon icon
+ const {theme}=useSelector((state)=>state.theme);
 
   const path=useLocation().pathname;
+
   const {Curruser}=useSelector(state=>state.user);//to get only user wala state
 
   return (
@@ -29,8 +35,8 @@ const Header = () => {
       </Button>
 
       <div className='flex gap-2 md:order-2'>
-        <Button className='w-12 h-10 hidden sm:inline ' color='gray' pill>
-           <FaMoon />
+        <Button className='w-12 h-10 hidden sm:inline ' color='gray' pill onClick={()=>dispatch(toggleTheme())}>
+           {theme==='light'? (<FaMoon  />) :(<FaSun  />)}
         </Button>
         {Curruser ? (
           <Dropdown
