@@ -26,18 +26,19 @@ const app=express();
 
 
 app.use(express.json());
-// app.use((err,req,res,next)=>{
-//     const statusCode=err.statusCode || 500;
-//     const message=err.message || 'Internal Server Error';
-//     res.status(statusCode).send({
-//     success:false,
-//     statusCode,
-//     message
-//     });
-//     });
+
 app.use('/api/user',userRoutes);
 app.use('/api/auth',authRoutes);
-
+//very imp part to set next work-----------(placing is also important)-------------
+app.use((err,req,res,next)=>{
+    const statusCode=err.statusCode || 500;
+    const message=err.message || 'Internal Server Error';
+    res.status(statusCode).send({
+    success:false,
+    statusCode,
+    message
+    });
+    });
 
 
 app.listen(8080,()=>{

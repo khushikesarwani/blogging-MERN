@@ -21,7 +21,7 @@ const handleGoogleClick=async()=>{
 
     try {
         const resultsFromGoogle= await signInWithPopup(auth,provider);
-        console.log(resultsFromGoogle);//getting everything here inside user,getting photourl as well
+        // console.log(resultsFromGoogle);//getting everything here inside user,getting photourl as well
     
         //sending response to backend
         const res=await fetch('/api/auth/google',{

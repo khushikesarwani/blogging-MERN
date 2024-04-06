@@ -39,7 +39,7 @@ const SignIn = () => {
 
       //doing the above by this
       dispatch(SignInStart());
-
+      
       const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -47,11 +47,14 @@ const SignIn = () => {
         },
         body: JSON.stringify(data),
       });
+      
+      
       const d = await response.json();
       //  console.log(d);
 
       if (d.success === false) {
         // return setErrormessage(d.message);
+        // console.log(d);
         dispatch(signInFailure(d.message));
       }
       if (response.ok) {
@@ -59,7 +62,7 @@ const SignIn = () => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      
       dispatch(signInFailure(error));
       console.log("front err" + error);
     }
@@ -132,11 +135,13 @@ const SignIn = () => {
             </Link>
           </div>
 
-          {/* {errormessage && (
+
+     
+           {errormessage && (
             <Alert className="mt-5" color="failure">
               {errormessage}
             </Alert>
-          )} */}
+          )} 
         </div>
       </div>
     </div>
