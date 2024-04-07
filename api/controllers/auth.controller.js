@@ -76,9 +76,7 @@ export const signinController=async(req,res,next)=>{
 
 const token= jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'3d'});
 
-
-
-return res.status(200).cookie('acces_token',token,{
+return res.status(200).cookie('access_token',token,{
                 httpOnly:true
             }).send({
                 success:true,
