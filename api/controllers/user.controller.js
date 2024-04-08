@@ -9,7 +9,7 @@ export const testController=async(req,res)=>{
 }
 
 export const updateUserController=async(req,res,next)=>{
-if(req.user.id!==req.params.userId){
+if(req.user.id!=req.params.userId){
     return next(errorHandler(403,"You are not allowed to update this profile "));
 
 }
@@ -37,6 +37,7 @@ if(req.body.username){
     }
 }
 try {
+    console.log(req.body.username);
     const user=await userModel.findByIdAndUpdate(req.user.id,{
        $set:{
         username:req.body.username,
@@ -45,7 +46,7 @@ try {
 
        }
     },{new:true}); //to get the new info back not the prev one
-
+console.log(user);
     const newUser={
         username:user.username,
         _id:user._id,

@@ -5,13 +5,24 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/st
 import {app} from '../firebase.js'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { updateStart,updateSuccess,updateFailure } from '../Redux/user/userSlice.js';
+import {useDispatch} from 'react-redux';
+
 
 const DashProfile = () => {
+
+  const dispatch=useDispatch();
+
 const {Curruser}=useSelector((state)=>state.user);
 const [imagefile,setImageFile]=useState(null);
 const [imageFileUrl,setImageFileUrl]=useState(null);
 const [imageFileUploadingProgress,setImageFileUploadingProgress]=useState(null);//track progress
 const [imageFileUploadError,setImageFileUploadError]=useState(null);
+const [imageUploading,setImageUploading]=useState(false);
+const [updateUserSuccess,setUpdateUserSuccess]=useState(null);
+const [updateUserError,setUpdateUserError]=useState(null);
+
+const [formData,setFormData]=useState({});
 
 
 //when i click on profile , i should be able to change image
@@ -39,6 +50,9 @@ if(imagefile){
 
 //whole logic=======================
 const uploadImage=async()=>{
+
+  setImageUploading(true);
+
 setImageFileUploadError(null);
 const storage=getStorage(app);
 const fileName= new Date().getTime() + imagefile.name; //adding date logic to make it unique
@@ -61,12 +75,15 @@ setImageFileUploadError("Couldn't upload image {File must be less than 2MB}");
 setImageFileUploadingProgress(null);
 setImageFile(null);
 setImageFileUrl(null);
+setImageUploading(false);
 
 },
 //we want file feedback now
 ()=>{
 getDownloadURL(uploadTask.snapshot.ref).then((downloarUrl)=>{
   setImageFileUrl(downloarUrl);
+  setFormData({...formData,profilePicture:downloarUrl});
+  setImageUploading(false);
 });
 }
 );
@@ -75,12 +92,68 @@ getDownloadURL(uploadTask.snapshot.ref).then((downloarUrl)=>{
 
 // console.log(imageFileUploadingProgress,imageFileUploadError);
 
+//handling on change events
+const handleChange=(e)=>{
+ setFormData({...formData,[e.target.id]:e.target.value});
+
+}
+
+//onsubmitting the form
+const handleSubmit=async(e)=>{
+e.preventDefault();
+
+setUpdateUserError(null);
+setUpdateUserSuccess(null);
+
+//if formdata is empty don't submit
+if(Object.keys(formData).length===0){
+  setUpdateUserError("Nothing to update");
+  return ;
+}
+
+if(imageUploading){ //since we don't want to fetch if the image is in uploading mode
+ setUpdateUserError("Please wait for image to upload");
+  return;
+}
+
+try {
+
+dispatch(updateStart());
+const response= await fetch(`/api/user/update/${Curruser._id}`,{
+  method:'PUT',
+  headers:{
+    'Content-Type':'application/json',
+  },
+  body:JSON.stringify(formData),
+});
+
+
+const data=await response.json();
+
+if(!response.ok){
+  dispatch(updateFailure(data.message));
+  setUpdateUserError(data.message);
+}else{
+  dispatch(updateSuccess(data));
+  setUpdateUserSuccess("User's profile updated successfully");
+  setUpdateUserError(null);
+}
+
+  
+} catch (error) {
+  dispatch(updateFailure());
+}
+
+
+}
+
+
 
 
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
         <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
-        <form className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
  {/* update profile */}
       <input type="file" accept="image/*" onChange={handleImageChange} ref={fileRef} hidden />
 
@@ -117,21 +190,23 @@ getDownloadURL(uploadTask.snapshot.ref).then((downloarUrl)=>{
        
        <TextInput 
        type="text"
-       id="useranme"
+       id="username"
        placeholder="username"
        defaultValue={Curruser.username}
+       onChange={handleChange}
         />
         <TextInput 
        type="email"
        id="email"
        placeholder="email"
        defaultValue={Curruser.email}
+       disabled
         />
         <TextInput 
        type="password"
        id="pasword"
        placeholder="password********"
-       
+       onChange={handleChange}
         />
         <Button type="submit" gradientDuoTone='purpleToBlue' >
           Update
@@ -142,6 +217,15 @@ getDownloadURL(uploadTask.snapshot.ref).then((downloarUrl)=>{
             <span className="cursor-pointer">Delete Account </span>
             <span className="cursor-pointer">Sign Out</span>
         </div>
+        {updateUserSuccess && <Alert
+        color="success"
+        className='mt-5'
+        >{updateUserSuccess}</Alert>}
+
+{updateUserError && <Alert
+        color="failure"
+        className='mt-5'
+        >{updateUserError}</Alert>}
     </div>
   )
 }
