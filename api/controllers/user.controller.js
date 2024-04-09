@@ -8,6 +8,8 @@ export const testController=async(req,res)=>{
 
 }
 
+
+//update user========================================================
 export const updateUserController=async(req,res,next)=>{
 if(req.user.id!=req.params.userId){
     return next(errorHandler(403,"You are not allowed to update this profile "));
@@ -60,4 +62,21 @@ console.log(user);
     next(error);
 }
 
+}
+
+//delete user===============================================================
+
+export const deleteAccountController=async(req,res,next)=>{
+
+    if(req.user.id!=req.params.userId){
+        return next(errorHandler(403,"You are not allowed to delete this profile "));
+    }
+
+    try {
+        await userModel.findByIdAndDelete(req.params.userId);
+        res.status(200).json('user has been deleted');
+
+    } catch (error) {
+        next(error);
+    }
 }

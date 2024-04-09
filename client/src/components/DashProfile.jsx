@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {useSelector} from 'react-redux';
-import {Alert, Button, TextInput} from 'flowbite-react';
+import {Alert, Button, Modal, TextInput} from 'flowbite-react';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 import {app} from '../firebase.js'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { updateStart,updateSuccess,updateFailure } from '../Redux/user/userSlice.js';
 import {useDispatch} from 'react-redux';
+import {HiOutlineExclamationCircle} from 'react-icons/hi';
+import { deleteUserStart,deleteUserSuccess,deleteUserFailure } from '../Redux/user/userSlice.js';
+
 
 
 const DashProfile = () => {
 
   const dispatch=useDispatch();
 
-const {Curruser}=useSelector((state)=>state.user);
+const {Curruser,error}=useSelector((state)=>state.user);
 const [imagefile,setImageFile]=useState(null);
 const [imageFileUrl,setImageFileUrl]=useState(null);
 const [imageFileUploadingProgress,setImageFileUploadingProgress]=useState(null);//track progress
@@ -23,6 +26,14 @@ const [updateUserSuccess,setUpdateUserSuccess]=useState(null);
 const [updateUserError,setUpdateUserError]=useState(null);
 
 const [formData,setFormData]=useState({});
+
+//for deleteaccount model
+const [showModel,setShowModel]=useState(false);
+
+
+
+
+
 
 
 //when i click on profile , i should be able to change image
@@ -92,7 +103,10 @@ getDownloadURL(uploadTask.snapshot.ref).then((downloarUrl)=>{
 
 // console.log(imageFileUploadingProgress,imageFileUploadError);
 
-//handling on change events
+
+
+
+//handling on change events on inputs
 const handleChange=(e)=>{
  setFormData({...formData,[e.target.id]:e.target.value});
 
@@ -143,7 +157,29 @@ if(!response.ok){
 } catch (error) {
   dispatch(updateFailure());
 }
+}
 
+//deleting account
+const handleDeleteUser=async()=>{
+
+  setShowModel(false);
+  try {
+dispatch(deleteUserStart());
+const response=await fetch(`/api/user/delete/${Curruser._id}`,{
+  method:'DELETE',
+});
+const data=await response.json();
+
+
+if(!response.ok){
+  dispatch(deleteUserFailure(data.message))
+}else{
+  dispatch(deleteUserSuccess(data));
+}
+    
+  } catch (error) {
+    dispatch(deleteUserFailure(error.message));
+  }
 
 }
 
@@ -214,7 +250,7 @@ if(!response.ok){
            
         </form>
         <div className="text-red-500 flex justify-between">
-            <span className="cursor-pointer">Delete Account </span>
+           <span className="cursor-pointer" onClick={()=>setShowModel(true)}>Delete Account</span>
             <span className="cursor-pointer">Sign Out</span>
         </div>
         {updateUserSuccess && <Alert
@@ -226,6 +262,33 @@ if(!response.ok){
         color="failure"
         className='mt-5'
         >{updateUserError}</Alert>}
+
+{/* error for delete user */}
+        {error && <Alert
+        color="failure"
+        className='mt-5'
+        >{error}</Alert>}
+
+{/* Writing Logic for pop-up delete account */}
+
+<Modal show={showModel}
+  onClose={()=>setShowModel(false)} popup size='md'>
+  <Modal.Header />
+  <Modal.Body>
+    <div className="text-center">
+      <HiOutlineExclamationCircle className='h-14 w-14
+       text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+       <h3 className=' text-lg text-gray-500 dark:text-gray-200'>Are you sure you want to delete your account</h3>
+       <small className=' mb-4 text-sm text-red-600'>It will permanently delete it from our database as well</small>
+       <div className="flex justify-center  gap-2 mt-5 ">
+        <Button color='failure' onClick={handleDeleteUser} >Delete</Button>
+        <Button color='yellow' onClick={()=>setShowModel(false)}>Cancel</Button>
+       </div>
+    </div>
+  </Modal.Body>
+</Modal>
+
+
     </div>
   )
 }
