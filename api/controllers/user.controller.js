@@ -85,11 +85,11 @@ export const deleteAccountController=async(req,res,next)=>{
 
 export const signOutController=(req,res,next)=>{
     try {
-        console.log("Hiiii");
+        
         res.clearCookie('access_token').status(200).json("User has been signed out");
 
     } catch (error) {
-        console.log(error);
+       
         next(error);
     }
 

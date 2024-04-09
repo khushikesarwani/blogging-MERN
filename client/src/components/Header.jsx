@@ -5,6 +5,7 @@ import {AiOutlineSearch} from 'react-icons/ai'
 import {Link, useLocation} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
 import { toggleTheme } from '../Redux/theme/themeSlice';
+import {signoutSuccess} from '../Redux/user/userSlice.js';
 
 const Header = () => {
    
@@ -15,6 +16,29 @@ const Header = () => {
   const path=useLocation().pathname;
 
   const {Curruser}=useSelector(state=>state.user);//to get only user wala state
+
+  //sign out/logout===============
+
+const handleSignOut=async()=>{
+  try {
+    const response=await fetch("api/user/signout",{
+      method:'POST',
+    });
+    const data=await response.json();
+    console.log(data);
+  
+  if(!response.ok){
+    console.log(data.message);
+  }
+  else{
+  dispatch(signoutSuccess());
+  }
+  
+  } catch (error) {
+    console.log(error.message);
+  }
+  
+  }
 
   return (
     <Navbar className='border-b-2'>
@@ -60,7 +84,7 @@ const Header = () => {
          <Dropdown.Item>Profile</Dropdown.Item>
           </Link>
           <Dropdown.Divider />
-          <Dropdown.Item>Sign Out</Dropdown.Item>
+          <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
             
           </Dropdown>
         ) : (
