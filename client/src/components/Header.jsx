@@ -11,6 +11,7 @@ const Header = () => {
    
   const dispatch=useDispatch();
  //for getting theme to reflect sun or moon icon
+ 
  const {theme}=useSelector((state)=>state.theme);
 
   const path=useLocation().pathname;

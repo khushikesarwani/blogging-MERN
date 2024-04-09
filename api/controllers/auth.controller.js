@@ -74,7 +74,7 @@ export const signinController=async(req,res,next)=>{
           return  next(errorHandler(400,"Invalid user/Password mismatched"));
         }
 
-const token= jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'3d'});
+const token= jwt.sign({id:user._id,isAdmin:user.isAdmin},process.env.JWT_SECRET,{expiresIn:'3d'});
 
 return res.status(200).cookie('access_token',token,{
                 httpOnly:true
@@ -111,7 +111,7 @@ const user=await userModel.findOne({email});
 
 if(user){ //for exixting user
    console.log(user);
-    const token= jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'3d'});
+    const token= jwt.sign({id:user._id,isAdmin:user.isAdmin},process.env.JWT_SECRET,{expiresIn:'3d'});
     
 
     const usershare={
@@ -146,7 +146,7 @@ const newUser=await new userModel({
 await newUser.save();
 
 //token creation
-const token= jwt.sign({id:newUser._id},process.env.JWT_SECRET,{expiresIn:'3d'});
+const token= jwt.sign({id:newUser._id,isAdmin:newUser.isAdmin},process.env.JWT_SECRET,{expiresIn:'3d'});
 console.log("newUser");
 console.log(newUser);
     // const {password, ...rest}=newUser;
