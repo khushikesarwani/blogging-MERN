@@ -1,12 +1,13 @@
 import React, { useEffect,useState } from 'react';
 import {useSelector} from 'react-redux';
-import {Table} from 'flowbite-react';
+import {Button, Table} from 'flowbite-react';
 import {Link} from 'react-router-dom';
 
 const DashPosts = () => {
 
   const {Curruser}=useSelector((state)=>state.user);
   const [userPosts,setUserPosts]=useState([]);
+  const [showMore,setshowMore]=useState(true);
 
 
 
@@ -21,6 +22,10 @@ useEffect(()=>{
 
       if(res.ok){
       setUserPosts(data.posts);
+      //for show more button
+      if(data.posts.length<9){
+        setshowMore(false);
+      }
       }
 
     } catch (error) {
@@ -31,6 +36,30 @@ useEffect(()=>{
 if(Curruser.isAdmin)  fetchposts();
 
 },[Curruser._id]);
+
+//show more 
+const handleShowMore=async()=>{
+
+  const startIndex=userPosts.length;
+  
+
+  try {
+   
+const res=await fetch(`/api/post/getposts?userId=${Curruser._id}&startIndex=${startIndex}`);
+const data=await res.json();
+
+if(res.ok)
+  setUserPosts((prev)=>[...prev,...data.posts]);
+
+  if(data.posts.length<9){
+    setshowMore(false);
+  }
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
 
   return (
@@ -77,6 +106,11 @@ if(Curruser.isAdmin)  fetchposts();
 
 
           </Table>
+          {showMore && (
+            <Button className='mt-3 text-white self-center text-sm mx-auto  ' outline onClick={handleShowMore} >
+              Show More
+            </Button>
+          )}
         </>
       ) :
       (<p>
