@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import {Sidebar} from 'flowbite-react';
 import {HiUser, HiArrowSmRight} from 'react-icons/hi'; 
-import {useLocation,Link} from 'react-router-dom';
+import {useLocation,Link,useNavigate} from 'react-router-dom';
 import {signoutSuccess} from '../Redux/user/userSlice.js';
 import {useDispatch} from 'react-redux';
+
 
 
 const DashSidebar = () => {
@@ -11,6 +12,7 @@ const DashSidebar = () => {
     const location=useLocation();
     const [tab,setTab]=useState('profile');
     const dispatch=useDispatch();
+    const navigate=useNavigate();
     
     
     // console.log(location);
@@ -38,6 +40,7 @@ const DashSidebar = () => {
       }
       else{
       dispatch(signoutSuccess());
+      navigate('/sign-in');
       }
       
       } catch (error) {

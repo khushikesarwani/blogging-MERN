@@ -4,6 +4,9 @@ import { errorHandler } from "../utils/error.js"
 
 export const createPostController=async(req,res,next)=>{
     //first we need to check if person is admin or not
+console.log(req.body);
+
+
     if(!req.user.isAdmin){
       return  next(errorHandler(400,"You are not allowed to create a post"));
     }

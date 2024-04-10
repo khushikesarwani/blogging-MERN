@@ -6,9 +6,11 @@ import {Link, useLocation} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
 import { toggleTheme } from '../Redux/theme/themeSlice';
 import {signoutSuccess} from '../Redux/user/userSlice.js';
+import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
    
+  const navigate=useNavigate();
   const dispatch=useDispatch();
  //for getting theme to reflect sun or moon icon
  
@@ -33,6 +35,7 @@ const handleSignOut=async()=>{
   }
   else{
   dispatch(signoutSuccess());
+  navigate('/sign-in');
   }
   
   } catch (error) {

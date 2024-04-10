@@ -8,12 +8,14 @@ import 'react-circular-progressbar/dist/styles.css';
 import {useDispatch} from 'react-redux';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 import {updateStart,updateSuccess,updateFailure, deleteUserStart,deleteUserSuccess,deleteUserFailure,signoutSuccess } from '../Redux/user/userSlice.js';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
 
 
 const DashProfile = () => {
 
   const dispatch=useDispatch();
+  const navigate=useNavigate();
 
 const {Curruser,error,loading}=useSelector((state)=>state.user);
 const [imagefile,setImageFile]=useState(null);
@@ -197,6 +199,7 @@ if(!response.ok){
 }
 else{
 dispatch(signoutSuccess());
+navigate('/sign-in');
 }
 
 } catch (error) {
