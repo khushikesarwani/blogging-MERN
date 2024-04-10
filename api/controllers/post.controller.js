@@ -4,7 +4,7 @@ import { errorHandler } from "../utils/error.js"
 
 export const createPostController=async(req,res,next)=>{
     //first we need to check if person is admin or not
-console.log(req.body);
+
 
 
     if(!req.user.isAdmin){
