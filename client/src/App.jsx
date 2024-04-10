@@ -9,6 +9,8 @@ import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard.jsx';
 import Footer from './components/Footer.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx'
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute.jsx';
+import CreatePost from './pages/CreatePost.jsx';
 
 
 
@@ -28,6 +30,10 @@ const App = () => {
         <Route path='/dashboard' element={<Dashboard />} />
         </Route>
         
+        <Route element={<OnlyAdminPrivateRoute />}>
+        <Route path='/create-post' element={<CreatePost />} />
+        </Route>
+
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -8,14 +8,14 @@ import 'react-circular-progressbar/dist/styles.css';
 import {useDispatch} from 'react-redux';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 import {updateStart,updateSuccess,updateFailure, deleteUserStart,deleteUserSuccess,deleteUserFailure,signoutSuccess } from '../Redux/user/userSlice.js';
-
+import { Link } from 'react-router-dom';
 
 
 const DashProfile = () => {
 
   const dispatch=useDispatch();
 
-const {Curruser,error}=useSelector((state)=>state.user);
+const {Curruser,error,loading}=useSelector((state)=>state.user);
 const [imagefile,setImageFile]=useState(null);
 const [imageFileUrl,setImageFileUrl]=useState(null);
 const [imageFileUploadingProgress,setImageFileUploadingProgress]=useState(null);//track progress
@@ -264,9 +264,23 @@ dispatch(signoutSuccess());
        placeholder="password********"
        onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone='purpleToBlue' >
-          Update
+        <Button type="submit" gradientDuoTone='purpleToBlue'  disabled={loading || imageUploading}>
+         {loading? 'loading...' :'Update'}
         </Button>
+        
+        {Curruser.isAdmin && (
+          <Link to={'/create-post'}>
+          <Button
+          type='button'
+          gradientDuoTone='purpleToPink'
+          className='w-full'
+          outline
+           >
+            Create a new post
+           </Button>
+          </Link>
+          
+        )}
            
         </form>
         <div className="text-red-500 flex justify-between">

@@ -85,7 +85,8 @@ return res.status(200).cookie('access_token',token,{
                     email:user.email,
                     username:user.username,
                     _id:user._id,
-                    profilePicture:user.profilePicture
+                    profilePicture:user.profilePicture,
+                    isAdmin:user.isAdmin,
                 }
 
             });
@@ -110,7 +111,7 @@ export const googleController=async(req,res,next)=>{
 const user=await userModel.findOne({email});
 
 if(user){ //for exixting user
-   console.log(user);
+   
     const token= jwt.sign({id:user._id,isAdmin:user.isAdmin},process.env.JWT_SECRET,{expiresIn:'3d'});
     
 
@@ -118,7 +119,8 @@ if(user){ //for exixting user
         username:user.username,
         _id:user._id,
         email:user.email,
-        profilePicture:user.profilePicture
+        profilePicture:user.profilePicture,
+        isAdmin:user.isAdmin,
     };
 
 
@@ -141,6 +143,7 @@ const newUser=await new userModel({
     email:email,
     password:hassedPass,
     profilePicture: googlePhotoUrl
+
 });
 
 await newUser.save();
@@ -150,7 +153,6 @@ const token= jwt.sign({id:newUser._id,isAdmin:newUser.isAdmin},process.env.JWT_S
 console.log("newUser");
 console.log(newUser);
     // const {password, ...rest}=newUser;
-    // console.log("resssssssssst");
     // console.log(rest);
 
   return   res.status(201).cookie('access_token',token,{
@@ -161,6 +163,7 @@ console.log(newUser);
         _id:newUser._id,
         email:newUser.email,
         profilePicture:newUser.profilePicture,
+        isAdmin:newUser.isAdmin,
     
 });
 

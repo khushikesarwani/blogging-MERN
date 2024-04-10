@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import userRoutes  from './routes/userRoute.js';
 import authRoutes from './routes/auth.route.js';
+import postRoutes from './routes/post.route.js';
 import cookieParser from 'cookie-parser';
 
 
@@ -32,9 +33,11 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-
+//all routes
 app.use('/api/user',userRoutes);
 app.use('/api/auth',authRoutes);
+app.use('/api/post',postRoutes);
+
 
 //very imp part to set next work-----------(placing is also important)-------------
 app.use((err,req,res,next)=>{

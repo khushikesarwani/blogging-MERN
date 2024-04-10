@@ -3,3 +3,14 @@
 @tailwind utilities;
 
 
+body{
+    height:100vh;
+
+}
+
+/* for quill create post */
+
+.ql-editor{
+    font-size:1.05rem;
+    
+}

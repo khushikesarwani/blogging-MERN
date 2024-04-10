@@ -48,12 +48,13 @@ try {
 
        }
     },{new:true}); //to get the new info back not the prev one
-console.log(user);
+
     const newUser={
         username:user.username,
         _id:user._id,
         profilePicture:user.profilePicture,
-        email:user.email
+        email:user.email,
+        isAdmin:user.isAdmin,
     };
     res.status(200).json(newUser);
     
