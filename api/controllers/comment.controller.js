@@ -22,3 +22,17 @@ export const createController=async(req,res,next)=>{
         next(error);
     }
 }
+
+//getting all post comments
+export const getPostCommentsController=async(req,res,next)=>{
+
+try {   
+const comments=await commentModel.find({postId:req.params.postId}).sort({createdAt:-1}); //newest at top
+res.status(200).json(comments);
+
+} catch (error) {
+    next(error);
+}
+
+
+}

@@ -1,7 +1,8 @@
 import { Alert, Button, Textarea } from 'flowbite-react';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
+import Comment from './Comment.jsx';
 
 const CommentSection = ({postId}) => {
 
@@ -9,6 +10,8 @@ const {Curruser}=useSelector((state)=>state.user);
 
 const [comment,setComment]=useState('');
 const [error,setError]=useState(null);
+
+const [kcomments,setKcomments]=useState([]);
 
 
 
@@ -34,6 +37,7 @@ const handleSubmit=async(e)=>{
       if(res.ok){
     setComment('');
     setError(null);
+    setKcomments([data,...kcomments]); //for updating / adding new comment instantly
       }
       
     } catch (error) {
@@ -41,6 +45,25 @@ const handleSubmit=async(e)=>{
     }
     
 }
+
+useEffect(()=>{
+
+  const getComments=async()=>{
+    try {
+      
+      const res=await fetch(`/api/comment/getpostcomments/${postId}`);
+      if(res.ok){
+        const data=await res.json();
+        setKcomments(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  getComments();
+
+
+},[postId]);
 
 
   return (
@@ -82,7 +105,25 @@ const handleSubmit=async(e)=>{
     </form>
   
    )}
+ {kcomments.length===0 ?(
+  <div className=" text-sm my-5 flex items-center gap-1 ">
+    Be the first to comment ✨
+  </div>
+ ):(<>
 
+  <div className='text-sm my-5 flex items-center gap-1'>
+  <p>Comments</p>
+  <div className="border border-gray-400 py-1 px-2 rounded-sm"><p>{kcomments.length}</p></div>
+  </div>
+{
+  kcomments.map((cmt)=>{
+return <Comment key={cmt._id} comment={cmt} />
+})
+}
+ 
+ </>
+ 
+ )}
 
 
     </div>
