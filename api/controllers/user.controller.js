@@ -143,3 +143,9 @@ var lastMonthUsers=await userModel.countDocuments({
 }
 
 }
+
+//========delete user===============
+
+export const deleteUserController=async(req,res,next)=>{
+    
+}
