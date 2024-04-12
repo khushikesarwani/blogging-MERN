@@ -6,6 +6,7 @@ import userRoutes  from './routes/userRoute.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
 import cookieParser from 'cookie-parser';
+import commentRoute from './routes/comment.route.js';
 
 
 
@@ -37,6 +38,7 @@ app.use(express.json());
 app.use('/api/user',userRoutes);
 app.use('/api/auth',authRoutes);
 app.use('/api/post',postRoutes);
+app.use('/api/comment/',commentRoute);
 
 
 //very imp part to set next work-----------(placing is also important)-------------
