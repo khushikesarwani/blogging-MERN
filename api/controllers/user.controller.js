@@ -69,7 +69,7 @@ try {
 
 export const deleteAccountController=async(req,res,next)=>{
 
-    if(req.user.id!=req.params.userId){
+    if(!req.user.isAdmin && req.user.id!=req.params.userId){
         return next(errorHandler(403,"You are not allowed to delete this profile "));
     }
 
@@ -144,8 +144,3 @@ var lastMonthUsers=await userModel.countDocuments({
 
 }
 
-//========delete user===============
-
-export const deleteUserController=async(req,res,next)=>{
-    
-}

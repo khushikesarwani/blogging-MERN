@@ -66,27 +66,27 @@ if(res.ok)
 
 //delete post
 const handleDeleteUser = async()=>{
-//   setShowModel(false);
-//   try {
-//     const res=await fetch(`/api/user/deleteuser/${userIdToDelete}/${Curruser._id}`,{
-//       method:'DELETE',
-//     }
-//   );
-//  const data=await res.json();
+  setShowModel(false);
+  try {
+    const res=await fetch(`/api/user/delete/${userIdToDelete}`,{
+      method:'DELETE',
+    }
+  );
+ const data=await res.json();
 
-//     if(!res.ok){
-//       console.log(data.message);
-//     }else{
-//      setUsers((prev)=>{
+    if(!res.ok){
+      console.log(data.message);
+    }else{
+     setUsers((prev)=>{
        
-//          return prev.filter((user)=>user._id!==userIdToDelete);
-//       });
-//     }
+         return prev.filter((user)=>user._id!==userIdToDelete);
+      });
+    }
 
     
-//   } catch (error) {
-//     console.log(error.message);
-//   }
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 
