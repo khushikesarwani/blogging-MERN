@@ -14,3 +14,23 @@ body{
     font-size:1.05rem;
     
 }
+
+
+.post-contentk p{
+margin-bottom:0.5rem;
+}
+
+.post-contentk h2,h3{
+    margin-bottom:0.5rem;
+    font-weight:700;
+    border-bottom:3px;
+    }
+
+  .dark  .post-contentk h2,h3{
+        margin-bottom:0.5rem;
+        font-weight:700;
+        border-bottom:3px;
+        color: red;
+        }
+
+        
