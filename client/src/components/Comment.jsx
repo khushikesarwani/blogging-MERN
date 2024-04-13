@@ -4,7 +4,7 @@ import {FaHeart} from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Button, Textarea } from 'flowbite-react';
 
-const Comment = ({comment,onLike,onEdit}) => {
+const Comment = ({comment,onLike,onEdit,onDelete}) => {
 
     const {Curruser}=useSelector((state)=>state.user);
     const [user,setUser]=useState({});
@@ -108,11 +108,18 @@ getuser();
         <p className='text-gray-400'>{comment.numberOfLikes>0 && comment.numberOfLikes+" "+(comment.numberOfLikes===1?"like":"likes")}</p>
     {
         Curruser && (Curruser._id===comment._id) || (Curruser.isAdmin) && (
+            <>
             <button type="button" className='text-gray-400 hover:text-blue-500' onClick={handleEdit}>
                  Edit
             </button>
+            <button type="button" className='text-gray-400 hover:text-red-500' onClick={()=>onDelete(comment._id) }>
+                 Delete
+            </button>
+            </>
+           
         )
     }
+   
     
     </div>
         </>
