@@ -1,10 +1,12 @@
 import { Alert, Button, Textarea } from 'flowbite-react';
 import React, { useState,useEffect } from 'react';
 import { useSelector} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Comment from './Comment.jsx';
 
 const CommentSection = ({postId}) => {
+
+  const navigate=useNavigate();
 
 const {Curruser}=useSelector((state)=>state.user);
 
@@ -13,7 +15,7 @@ const [error,setError]=useState(null);
 
 const [kcomments,setKcomments]=useState([]);
 
-
+console.log(kcomments);
 
 const handleSubmit=async(e)=>{
     e.preventDefault();
@@ -64,6 +66,35 @@ useEffect(()=>{
 
 
 },[postId]);
+
+//comment like functionality================
+
+const handleLike=async(commentId)=>{
+try {
+  if(!Curruser){
+    navigate('/sign-in');
+    return;
+  }
+  const res=await fetch(`/api/comment/likecomment/${commentId}`,{
+    method:'PUT'
+  });
+
+  if(res.ok){
+    const data=await res.json();
+    setKcomments(kcomments.map((comment)=>{    //updating that comment as well
+      if(comment._id===commentId){
+        return data;
+      }else{
+        return comment;
+      }
+    }
+  ))
+  }
+  
+} catch (error) {
+  console.log(error);
+}
+}
 
 
   return (
@@ -117,7 +148,7 @@ useEffect(()=>{
   </div>
 {
   kcomments.map((cmt)=>{
-return <Comment key={cmt._id} comment={cmt} />
+return <Comment key={cmt._id} comment={cmt} onLike={handleLike} />
 })
 }
  

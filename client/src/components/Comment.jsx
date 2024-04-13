@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import {FaHeart} from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
-const Comment = ({comment}) => {
+const Comment = ({comment,onLike}) => {
 
+    const {Curruser}=useSelector((state)=>state.user);
     const [user,setUser]=useState({});
 
     useEffect(()=>{
@@ -40,6 +43,14 @@ getuser();
     <p className='text-gray-500 mb-2'>
         {comment.content}
     </p>
+    <div className="flex items-center pt-2 text-xs gap-2 border-t max-w-fit dark:border-gray-700 ">
+        <button type="button" onClick={()=>onLike(comment._id)}
+         className={`first-letter:text-gray-400 hover:text-red-500
+          ${Curruser && comment.likes.includes(Curruser._id) && '!text-red-500'}`}>
+            <FaHeart className='text-sm' />
+        </button>
+        <p className='text-gray-400'>{comment.numberOfLikes>0 && comment.numberOfLikes+" "+(comment.numberOfLikes===1?"like":"likes")}</p>
+    </div>
 
 </div>
 
