@@ -96,6 +96,20 @@ try {
 }
 }
 
+//handle Edit Comment
+
+const handleEdit=async(comment,editedContent)=>{
+setKcomments(kcomments.map((c)=>{
+  if(c._id===comment._id)
+ { return {  ...c,
+   content:editedContent}
+  }else{
+   return c;
+  }
+  
+}));
+}
+
 
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -124,6 +138,7 @@ try {
         maxLength='200'
         onChange={(e)=>setComment(e.target.value)}
         value={comment}
+        className='resize-none'
          />
 
          <div className='flex justify-between items-center mt-5 '>
@@ -148,7 +163,7 @@ try {
   </div>
 {
   kcomments.map((cmt)=>{
-return <Comment key={cmt._id} comment={cmt} onLike={handleLike} />
+return <Comment key={cmt._id} comment={cmt} onLike={handleLike} onEdit={handleEdit} />
 })
 }
  
