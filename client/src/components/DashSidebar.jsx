@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Sidebar} from 'flowbite-react';
-import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup} from 'react-icons/hi'; 
+import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiAnnotation} from 'react-icons/hi'; 
 import {useLocation,Link,useNavigate} from 'react-router-dom';
 import {signoutSuccess} from '../Redux/user/userSlice.js';
 import {useDispatch,useSelector} from 'react-redux';
@@ -70,6 +70,15 @@ const {Curruser}=useSelector((state)=>state.user);
                 </Sidebar.Item>
                 </Link>
                 )}
+
+                {Curruser.isAdmin && (
+                  <Link to='/dashboard?tab=comments'>
+                <Sidebar.Item active={tab=='comments'} icon={HiAnnotation} as={'div'}>
+                    Comments
+                </Sidebar.Item>
+                </Link>
+                )}
+
                 {Curruser.isAdmin && (
                   <Link to='/dashboard?tab=users'>
                 <Sidebar.Item active={tab=='users'} icon={HiOutlineUserGroup} as={'div'}>

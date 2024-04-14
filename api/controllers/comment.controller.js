@@ -107,3 +107,48 @@ try {
     next(error);
 }
 }
+
+//============get all comments============
+export const getCommentsController=async(req,res,next)=>{
+
+if(!req.user.isAdmin){
+    return next(errorHandler(403,"You are unauthorized to make this request"));
+}
+
+try {
+    
+    const startIndex=parseInt(req.query.startIndex) || 0;
+    const limit=parseInt(req.query.limit) || 9;
+    const sortDirection=req.query.sort === 'desc' ? -1 :1;
+
+    const comments=await commentModel.find().sort({createdAt:sortDirection}).skip(startIndex).limit(limit);
+
+    const totalComments=await commentModel.countDocuments();
+
+    //comments from the last month
+
+    const now=new Date();
+    var oneMonthAgo=new Date(
+        now.getFullYear(),
+        now.getMonth()-1,
+        now.getDate()
+    );
+
+    var lastMonthsComment=await commentModel.countDocuments({
+        createdAt:{$gte: oneMonthAgo},
+     });
+
+    res.status(200).json({
+        comments,
+        totalComments,
+        lastMonthsComment
+    });
+
+
+
+
+} catch (error) {
+    next(error);
+}
+
+}
