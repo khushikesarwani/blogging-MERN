@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Link, useParams} from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
+import PostCard from '../components/PostCard';
 
 const PostPage = () => {
 
@@ -10,6 +11,10 @@ const PostPage = () => {
     const [loading,setLoading]=useState(true);
     const [error,setError]=useState(false);
     const [post,setPost]=useState(null);
+    const [recentPosts,setRecentPosts]=useState(null);
+
+
+    //for fetching the main post based on slug===========
 
     useEffect(()=>{
         const fetchPost=async()=>{
@@ -42,6 +47,31 @@ const PostPage = () => {
    
     },[postSlug]);
 
+//for fetching recent posts=================
+
+useEffect(()=>{
+try {
+    const fetchRecentPosts=async()=>{
+const res=await fetch(`/api/post/getPosts?limit=3`);
+const data=await res.json();
+if(res.ok){
+setRecentPosts(data.posts);
+
+}
+
+
+    }
+    fetchRecentPosts();
+
+} catch (error) {
+    console.log(error.message);
+}
+},[]);
+
+
+
+
+
    
     {if(loading) return (
     <div className='flex justify-center items-center min-h-screen'>
@@ -69,11 +99,29 @@ const PostPage = () => {
 <div className='p-3 max-w-2xl mx-aut0 w-full post-contentk' dangerouslySetInnerHTML={{__html:post && post.content}}>
 
 </div>
+
+{/* =============CTA====================== */}
+
 <div className='max-w-4xl mx-auto w-full'>
     <CallToAction />
 </div>
 
+{/* comments section */}
 <CommentSection postId={post._id} />
+
+
+{/* recent posts */}
+<div className="flex flex-col justify-center items-center mb-5">
+<h1 className='text-xl mt-5'>Recent Articles</h1>
+<div className="flex flex-wrap gap-5 mt-5 justify-center">
+{
+    recentPosts && recentPosts.map((post)=>{
+       return <PostCard key={post._id} post={post} />
+    })
+}
+</div>
+
+</div>
 
  </main>
   )
