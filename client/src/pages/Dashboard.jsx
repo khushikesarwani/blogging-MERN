@@ -5,6 +5,7 @@ import DashProfile from '../components/DashProfile';
 import DashPosts from '../components/DashPosts';
 import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
+import DashboardOverview from '../components/DashboardOverview';
 
 const Dashboard = () => {
   const location=useLocation();
@@ -33,6 +34,7 @@ useEffect(()=>{
       {tab=='posts' && <DashPosts />}
       {tab=='users' && <DashUsers />}
       {tab=='comments' && <DashComments />}
+      {tab=='dash' && <DashboardOverview />}
       
       
      </div>

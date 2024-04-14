@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Sidebar} from 'flowbite-react';
-import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiAnnotation} from 'react-icons/hi'; 
+import {HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiAnnotation, HiChartPie} from 'react-icons/hi'; 
 import {useLocation,Link,useNavigate} from 'react-router-dom';
 import {signoutSuccess} from '../Redux/user/userSlice.js';
 import {useDispatch,useSelector} from 'react-redux';
@@ -57,36 +57,48 @@ const {Curruser}=useSelector((state)=>state.user);
     <Sidebar  className='w-full md:w-56' >
         <Sidebar.Items>
             <Sidebar.ItemGroup className='flex flex-col gap-2'>
+
+            {Curruser.isAdmin && (<>
+                  <Link to='/dashboard?tab=dash'>
+                <Sidebar.Item active={!tab || tab==='dash' } icon={HiChartPie} as={'div'}>
+                  Dashboard
+                </Sidebar.Item>
+                </Link>
+                </>)
+            }
+
             <Link to='/dashboard?tab=profile' >
                 <Sidebar.Item active={tab==='profile'} icon={HiUser}  label={Curruser.isAdmin ? 'admin' : 'user'} labelColor="dark" className="cursor-pointer" as='div' >
                   Profile
                 </Sidebar.Item>
                 </Link>
 
-                {Curruser.isAdmin && (
+                {Curruser.isAdmin && (<>
+                 
+
+
                   <Link to='/dashboard?tab=posts'>
-                <Sidebar.Item active={tab=='posts'} icon={HiDocumentText} as={'div'}>
+                <Sidebar.Item active={tab==='posts'} icon={HiDocumentText} as={'div'}>
                     Posts
                 </Sidebar.Item>
                 </Link>
-                )}
 
-                {Curruser.isAdmin && (
-                  <Link to='/dashboard?tab=comments'>
-                <Sidebar.Item active={tab=='comments'} icon={HiAnnotation} as={'div'}>
+                <Link to='/dashboard?tab=comments'>
+                <Sidebar.Item active={tab==='comments'} icon={HiAnnotation} as={'div'}>
                     Comments
                 </Sidebar.Item>
                 </Link>
-                )}
 
-                {Curruser.isAdmin && (
-                  <Link to='/dashboard?tab=users'>
-                <Sidebar.Item active={tab=='users'} icon={HiOutlineUserGroup} as={'div'}>
+                <Link to='/dashboard?tab=users'>
+                <Sidebar.Item active={tab==='users'} icon={HiOutlineUserGroup} as={'div'}>
                     Users
                 </Sidebar.Item>
                 </Link>
+
+                </>
+                 
                 )}
-                
+
 
                 <Sidebar.Item  icon={HiArrowSmRight} className="cursor-pointer" onClick={handleSignOut}  >
                  Sign Out
