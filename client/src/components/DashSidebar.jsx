@@ -98,9 +98,7 @@ const {Curruser}=useSelector((state)=>state.user);
                 </>
                  
                 )}
-
-
-                <Sidebar.Item  icon={HiArrowSmRight} className="cursor-pointer" onClick={handleSignOut}  >
+<Sidebar.Item  icon={HiArrowSmRight} className="cursor-pointer" onClick={handleSignOut}  >
                  Sign Out
                 </Sidebar.Item>
             </Sidebar.ItemGroup>
