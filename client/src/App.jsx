@@ -14,6 +14,7 @@ import CreatePost from './pages/CreatePost.jsx';
 import UpdatePost from './pages/UpdatePost.jsx';
 import PostPage from './pages/PostPage.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
+import Search from './pages/Search.jsx';
 
 
 
@@ -29,6 +30,7 @@ const App = () => {
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/about' element={<About />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/search' element={<Search />} />
 
         <Route element={<PrivateRoute />}>
         <Route path='/dashboard' element={<Dashboard />} />

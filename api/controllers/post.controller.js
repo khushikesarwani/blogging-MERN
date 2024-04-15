@@ -48,10 +48,10 @@ try {
             ...(req.query.slug && {slug:req.query.slug}),
             ...(req.query.postId && {_id:req.query.postId}),
             //for serch terms
-            ...(req.query.serchTerms && {
+            ...(req.query.searchTerm && {
                 $or:[
-                    { title :{$regex :req.query.serchTerms, $options:'i'}},
-                    { content :{$regex :req.query.serchTerms, $options:'i'}},
+                    { title :{$regex :req.query.searchTerm, $options:'i'}},
+                    { content :{$regex :req.query.searchTerm, $options:'i'}},
                 ],
             }),
          }).sort({updatedAt:sortDirection}).skip(startIndex).limit(limit); //find ended
