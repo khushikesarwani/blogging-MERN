@@ -15,6 +15,7 @@ import UpdatePost from './pages/UpdatePost.jsx';
 import PostPage from './pages/PostPage.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
 import Search from './pages/Search.jsx';
+import ContactUs from './pages/ContactUs.jsx';
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
       
         <Route path='/' element={<Home />} />
         <Route path='/sign-in' element={<SignIn />} />
+        <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/about' element={<About />} />
         <Route path='/profile' element={<Profile />} />

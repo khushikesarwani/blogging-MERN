@@ -152,9 +152,9 @@ navigate(`/search?${searchQuery}`);
     </Navbar.Link>
   </Link>
 
-  <Link to='/sign-in'>
-  <Navbar.Link active={path==='/sign-in'} as={'div'}>
-      Sign In
+  <Link to='/contact-us'>
+  <Navbar.Link active={path==='/contact-us'} as={'div'}>
+      Contact Us
     </Navbar.Link>
   </Link>
 

@@ -63,7 +63,7 @@ const SignIn = () => {
       }
     } catch (error) {
       
-      dispatch(signInFailure(error));
+      dispatch(signInFailure(error.message));
       console.log("front err" + error);
     }
   };
@@ -137,11 +137,11 @@ const SignIn = () => {
 
 
      
-           {/* {errormessage && (
+           {errormessage && (
             <Alert className="mt-5" color="failure">
               {errormessage}
             </Alert>
-          )}  */}
+          )} 
         </div>
       </div>
     </div>
