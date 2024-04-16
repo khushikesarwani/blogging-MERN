@@ -5,7 +5,7 @@ import {BsFacebook, BsTwitter, BsInstagram, BsWhatsapp, BsGithub} from 'react-ic
 
 const FooterComp = () => {
   return (
-    <Footer className='boder border-t-8 border-teal-500'>
+    <Footer className='boder border-t-4 shadow' >
 
 <div className='w-full max-w-7xl mx-auto'>
 <div className='grid w-full justify-between sm:flex md:grid-cols-1'>

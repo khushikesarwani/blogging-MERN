@@ -106,7 +106,7 @@ return;
  <div className='flex flex-col gap-4 sm:flex-row justify-between'>
 <TextInput 
 type='text'
-placeholder='Title '
+placeholder='Title'
 required
 id='title'
 className='flex-1'
@@ -114,9 +114,10 @@ onChange={(e)=>{setFormData({...formData,title:e.target.value})}}
 />
 <Select onChange={(e)=>{setFormData({...formData,category:e.target.value})}}>
     <option value="uncategorized">Select a category</option>
-    <option value="makeup">Makeup</option>
+    <option value="perfume">Perfumes</option>
     <option value="outfit">Outfits</option>
     <option value="travel">Travel</option>
+    <option value="car">Cars</option>
 </Select>
  </div>
  <div className="flex gap-4 items-center justify-between border-4  

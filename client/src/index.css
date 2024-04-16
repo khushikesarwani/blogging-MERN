@@ -30,7 +30,9 @@ margin-bottom:0.5rem;
         margin-bottom:0.5rem;
         font-weight:700;
         border-bottom:3px;
-        color: red;
+        color: gainsboro;
         }
 
-        
+   .bgdesign{
+    background-image: url("/images/bg.jpg");
+   }     

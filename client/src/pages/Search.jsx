@@ -9,9 +9,9 @@ const location=useLocation();
 const navigate=useNavigate();
 
   const [sidebarData,setSidebarData]=useState({
-    searchTerm:null,
+    searchTerm:'',
     sort:'desc',
-    category:'uncategorized'
+    category:''
 
   });
   // console.log(sidebarData);
@@ -26,7 +26,7 @@ useEffect(()=>{
 
   const urlParams=new URLSearchParams(location.search);
   const searchFromUrl=urlParams.get('searchTerm');
-  const sortFromUrl=urlParams.get('sort');
+  const sortFromUrl=urlParams.get('order');
   const categoryFromUrl=urlParams.get('category');
 
   if(searchFromUrl || sortFromUrl || categoryFromUrl){
@@ -53,7 +53,7 @@ return;
   const data=await res.json();
   setPosts(data.posts);
   setLoading(false);
-  if(data.posts.length>9){
+  if(data.posts.length===9){
     setshowMore(true);
   }else{
     setshowMore(false);
@@ -85,7 +85,7 @@ const handleChange=(e)=>{
     });
   }
 
-    if(e.target.id==='category'){
+    if(e.target.id==='category' && e.target.value!='uncategorized'){
       const category=e.target.value || 'uncategorized';
       setSidebarData({
         ...sidebarData,
@@ -102,7 +102,7 @@ e.preventDefault();
 
 const urlParams=new URLSearchParams(location.search);
 urlParams.set('searchTerm',sidebarData.searchTerm);
-urlParams.set('sort',sidebarData.sort);
+urlParams.set('order',sidebarData.sort);
 urlParams.set('category',sidebarData.category);
 const searchQuery=urlParams.toString();
 navigate(`/search?${searchQuery}`);
@@ -132,6 +132,7 @@ const handleShowMore=async()=>{
 }
 
   return (
+    <div>
     <div className='flex flex-col md:flex-row'>
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
         <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
@@ -158,9 +159,11 @@ const handleShowMore=async()=>{
           <div className="flex items-center gap-2 ">
             <label htmlFor='category' className=' font-semibold '>Category : </label>
             <Select id="category" onChange={handleChange} value={sidebarData.category}>
-              <option value="uncategorized">Uncategorized</option>
+              <option value='uncategorized'>Uncategorized</option>
               <option value="travel">Travel</option>
               <option value="makeup">Makeup</option>
+              <option value="car">Car</option>
+              
             </Select>
           </div>
           <Button type="submit" gradientDuoTone='purpleToPink' outline >Apply Filters</Button>
@@ -188,7 +191,9 @@ return <PostCard key={post._id} post={post} />
 }
         </div>
       </div>
-      {showMore && <button onClick={handleShowMore} className='text-teal-500 text-lg hover:underline p-7 w-full '>
+     
+    </div>
+    {showMore && <button onClick={handleShowMore} className='text-teal-500 text-lg hover:underline p-7 w-full '>
         Show More
       </button>}
     </div>

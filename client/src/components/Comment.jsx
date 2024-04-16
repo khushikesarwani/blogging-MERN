@@ -106,8 +106,10 @@ getuser();
             <FaHeart className='text-sm' />
         </button>
         <p className='text-gray-400'>{comment.numberOfLikes>0 && comment.numberOfLikes+" "+(comment.numberOfLikes===1?"like":"likes")}</p>
+
     {
-        Curruser && (Curruser._id===comment._id) || (Curruser.isAdmin) && (
+        Curruser && ((Curruser._id===comment.userId) || (Curruser.isAdmin) )&& (
+            
             <>
             <button type="button" className='text-gray-400 hover:text-blue-500' onClick={handleEdit}>
                  Edit

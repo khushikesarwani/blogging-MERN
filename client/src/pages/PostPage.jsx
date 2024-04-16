@@ -96,13 +96,13 @@ setRecentPosts(data.posts);
 </div>
 
 
-<div className='p-3 max-w-2xl mx-aut0 w-full post-contentk' dangerouslySetInnerHTML={{__html:post && post.content}}>
+<div className='p-3 max-w-2xl mx-aut0 w-full post-contentk mx-auto ' dangerouslySetInnerHTML={{__html:post && post.content}}>
 
 </div>
 
 {/* =============CTA====================== */}
 
-<div className='max-w-4xl mx-auto w-full'>
+<div className='max-w-4xl mx-auto w-full '>
     <CallToAction />
 </div>
 
